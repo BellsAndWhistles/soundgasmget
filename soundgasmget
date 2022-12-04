@@ -1,10 +1,58 @@
 #!/bin/sh
+#todo: add streaming capabilities. create other script  to get all audios from user?
 
-html=$(curl -s "$1")
-url=$(echo "$html" | grep "m4a" | grep -v "supplied" | awk ' { print $2 } ' | cut -c 2- | sed 's/..$//')
-title=$(echo "$html" | grep "<div class=\"jp-title\" aria-label=\"title\">" | grep -o ">.*<" | sed 's/.$//' | sed 's/^.//')
-formattedTitle=$(echo $title | sed 's/ /_/g')
+getFileUrl() {
+        html=$(curl -s "$1")
+        echo "$html" > testhtml
+        url=$(echo "$html" | grep "m4a" | grep -v "supplied" | cut -d '"' -f 2)
+}
 
-echo "Downloading $title to $formattedTitle.m4a"
+getTitle() {
+        title=$(echo "$html" | grep "<div class=\"jp-title\" aria-label=\"title\">" | cut -d '>' -f 2 | cut -d '<' -f 1)
+}
 
-wget "$url" -O "$formattedTitle.m4a" && echo "Done!" || echo "Error encountered! Download failed."
+case "$1" in
+        -h)
+                echo "SoundgasmGet - A posix-compliant shell script that downloads audios from soundgasm.net.
+                BASIC USAGE:
+                soundgasmget [OPTIONS]... [URL]...
+
+                The default behavior is to download the audio scraped from the given url and output it into a file based on the title.
+
+                -s
+                    Streams the audio from the given url to mpv.
+                -o
+                    Outputs the title and url of the audio.
+                -d
+                    Downloads the audio to the given file and streams the audio as it is downloading.
+                "
+                ;;
+        -s)
+                getFileUrl "$2"
+                getTitle
+                echo "Streaming $title from $url"
+                mpv --volume-max=300 "$url"
+                ;;
+        -o)
+                getFileUrl "$2"
+                getTitle
+                printf "URL: $url\nTITLE: $title\n"
+                ;;
+        -d)
+                getFileUrl "$2"
+                getTitle
+                formattedTitle=$(echo $title | sed 's/ /_/g')
+                echo "Downloading $title to $formattedTitle.m4a"
+                (wget "$url" -bO "$formattedTitle.m4a" > /dev/null || echo "Error encountered! Download failed.") &
+                sleep 2
+                echo "Streaming $title from $url"
+                mpv --volume-max=300 "$formattedTitle.m4a"
+                ;;
+        *)
+                getFileUrl "$1"
+                getTitle
+                formattedTitle=$(echo $title | sed 's/ /_/g')
+                echo "Downloading $title to $formattedTitle.m4a"
+                wget "$url" -O "$formattedTitle.m4a" && echo "Done!" || echo "Error encountered! Download failed."
+                ;;
+esac
