@@ -13,8 +13,7 @@ $ chmod +x $HOME.local/bin/soundgasmget
 * To update the script, simply download it again using the above command.
 * To uninstall the script, simply remove the file.
 ## Usage
-BASIC USAGE:
-	soundgasmget [OPTIONS]... [URL]...
+soundgasmget [OPTIONS]... [URL]...
 
 The default behavior is to download the audio scraped from the given url and output it into a file based on the title.
 
