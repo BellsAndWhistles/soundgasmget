@@ -1,4 +1,4 @@
-# SOUNDGASMGET
+<center># SOUNDGASMGET</center>
 
 This script downloads the audio file embeded in the [soundgasm.net](https://soundgasm.net/) url provided. It uses curl to download the html of the page, and wget to download the audio.
 
