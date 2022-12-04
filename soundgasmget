@@ -43,7 +43,7 @@ case "$1" in
                 formattedTitle=$(echo $title | sed 's/ /_/g')
                 echo "Downloading $title to $formattedTitle.m4a"
                 (wget "$url" -bO "$formattedTitle.m4a" > /dev/null || echo "Error encountered! Download failed.") &
-                sleep 2
+                sleep 4
                 echo "Streaming $title from $url"
                 mpv --volume-max=300 "$formattedTitle.m4a"
                 ;;
