@@ -5,3 +5,4 @@ This script downloads the audio file embeded in the soundgasm url provided. It u
 ## Requirements
 * curl - To download the html of the page
 * wget - To download the file found by the script
+## Installation
