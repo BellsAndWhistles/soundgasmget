@@ -1,0 +1,10 @@
+#!/bin/sh
+
+html=$(curl -s "$1")
+url=$(echo "$html" | grep "m4a" | grep -v "supplied" | awk ' { print $2 } ' | cut -c 2- | sed 's/..$//')
+title=$(echo "$html" | grep "<div class=\"jp-title\" aria-label=\"title\">" | grep -o ">.*<" | sed 's/.$//' | sed 's/^.//')
+formattedTitle=$(echo $title | sed 's/ /_/g')
+
+echo "Downloading $title to $formattedTitle.m4a"
+
+wget "$url" -O "$formattedTitle.m4a" && echo "Done!" || echo "Error encountered! Download failed."
