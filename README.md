@@ -8,6 +8,6 @@ This script downloads the audio file embeded in the soundgasm url provided. It u
 ## Installation
 Simply curl **soundgasmget** to your **$PATH** and grant it execute permissions.
 ```{sh}
-curl https://raw.githubusercontent.com/BellsAndWhistles/soundgasmget/main/soundgasmget -o $HOME/.local/bin/soundgasmget
-chmod +x $HOME.local/bin/soundgasmget
+$ curl https://raw.githubusercontent.com/BellsAndWhistles/soundgasmget/main/soundgasmget -o $HOME/.local/bin/soundgasmget
+$ chmod +x $HOME.local/bin/soundgasmget
 ```
