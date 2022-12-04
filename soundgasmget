@@ -1,5 +1,4 @@
 #!/bin/sh
-#todo: add streaming capabilities. create other script  to get all audios from user?
 
 getFileUrl() {
         html=$(curl -s "$1")
