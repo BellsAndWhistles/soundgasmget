@@ -40,7 +40,7 @@ case "$1" in
         -d)
                 getFileUrl "$2"
                 getTitle
-                formattedTitle=$(echo $title | sed 's/ /_/g')
+                formattedTitle=$(echo $title | tr ' ' '_')
                 echo "Downloading $title to $formattedTitle.m4a"
                 (wget "$url" -bO "$formattedTitle.m4a" > /dev/null || echo "Error encountered! Download failed.") &
                 sleep 4
